@@ -33,11 +33,11 @@ jobs:
         with:
           report_paths: target/surefire-reports/TEST-*.xml
           check_name: Maven Surefire Tests
-          detailed_summary: true
+          detailed_summary: false
           include_passed: true
           include_skipped: true
           job_summary: true
           check_annotations: true
-          verbose_summary: true
-          simplified_summary: false
+          verbose_summary: false
+          simplified_summary: true
           check_title_template: '{{SUITE_NAME}}/{{TEST_NAME}}'
