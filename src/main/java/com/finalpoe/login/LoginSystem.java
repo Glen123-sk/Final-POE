@@ -1,23 +1,34 @@
 package com.finalpoe.login;
 
 public class LoginSystem {
-    private static final String USERNAME_SUCCESS = "Username successfully captured.";
-    private static final String USERNAME_FAILURE = "Username is not correctly formatted; please ensure that your username contains an underscore and is no more than five characters long.";
+    private static final String USERNAME_SUCCESS = "Welcome < user first name>,  it is great to see you.";
+    private static final String USERNAME_FAILURE = "Username is not correctly formatted; please ensure that your username contains an underscore and is no more than five characters in length.";
     private static final String PASSWORD_SUCCESS = "Password successfully captured.";
-    private static final String PASSWORD_FAILURE = "Password does not meet complexity requirements.";
+    private static final String PASSWORD_FAILURE = "Password is not correctly formatted; please ensure that the password contains at least eight characters, a capital letter, a number, and a special character.";
     private static final String CELL_SUCCESS = "Cell phone number successfully captured.";
-    private static final String CELL_FAILURE = "Cell phone number is incorrectly formatted.";
+    private static final String CELL_FAILURE = "Cell phone number is incorrectly formatted or does not contain an international code. Please correct the number and try again.";
 
     public String validateUsername(String username) {
-        if (username != null && username.contains("_") && username.length() <= 5) {
+        if (isUsernameValid(username)) {
             return USERNAME_SUCCESS;
         }
         return USERNAME_FAILURE;
     }
 
+    public boolean isUsernameValid(String username) {
+        return username != null && username.contains("_") && username.length() <= 5;
+    }
+
     public String validatePassword(String password) {
-        if (password == null || password.length() < 8) {
+        if (!isPasswordValid(password)) {
             return PASSWORD_FAILURE;
+        }
+        return PASSWORD_SUCCESS;
+    }
+
+    public boolean isPasswordValid(String password) {
+        if (password == null || password.length() < 8) {
+            return false;
         }
 
         boolean hasUppercase = false;
@@ -35,16 +46,22 @@ public class LoginSystem {
             }
         }
 
-        if (hasUppercase && hasNumber && hasSpecialCharacter) {
-            return PASSWORD_SUCCESS;
-        }
-        return PASSWORD_FAILURE;
+        return hasUppercase && hasNumber && hasSpecialCharacter;
     }
 
     public String validateCellPhoneNumber(String cellPhoneNumber) {
-        if (cellPhoneNumber != null && (cellPhoneNumber.matches("^0\\d{9}$") || cellPhoneNumber.matches("^\\+27\\d{9}$"))) {
+        if (isCellPhoneNumberValid(cellPhoneNumber)) {
             return CELL_SUCCESS;
         }
         return CELL_FAILURE;
+    }
+
+    public boolean isCellPhoneNumberValid(String cellPhoneNumber) {
+        return cellPhoneNumber != null
+                && (cellPhoneNumber.matches("^0\\d{9}$") || cellPhoneNumber.matches("^\\+27\\d{9}$"));
+    }
+
+    public boolean login(String username, String password) {
+        return isUsernameValid(username) && isPasswordValid(password);
     }
 }
